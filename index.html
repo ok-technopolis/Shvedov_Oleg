@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>todos | The simplest todo manager</title>
+    <meta name="description" content="">
+    <meta name="author" content="Oleg Shvedov">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="todos-header">
+        <h1 class="todos-title">Todos</h1>
+    </div>
+    </header>
+    <div class="todos-main">
+        <div class="todo-add">
+            <input type="checkbox" name="mark-all" class="todo-add_select-all" aria-label="Отметить все как выполненные">
+            <form id="todo-add_form">
+                <input type="text" class="todo-add_input" required autofocus autocomplete="off" placeholder="What needs to be done?" aria-label="Поле добавления дела">
+            </form>
+        </div>
+        <div class="todos-list">
+            <ul>
+                <li class="todo-item">
+                    <input type="checkbox" class="todo-item_ready-mark" aria-label="Пометить дело как выполненное">
+                    <textarea class="todo-item_text">
+                        HTML
+                    </textarea>
+                    <button class="todo-item_remove" aria-label="Удалить дело"></button>
+                </li>
+                <li class="todo-item">
+                    <input type="checkbox" checked="checked" class="todo-item_ready-mark" aria-label="Пометить дело как выполненное">
+                    <textarea class="todo-item_text">
+                        CSS
+                    </textarea>
+                    <button class="todo-item_remove" aria-label="Удалить дело"></button>
+                </li>
+                <li class="todo-item">
+                    <input type="checkbox" class="todo-item_ready-mark" aria-label="Пометить дело как выполненное">
+                    <textarea class="todo-item_text">
+                        JS
+                    </textarea>
+                    <button class="todo-item_remove" aria-label="Удалить дело"></button>
+                </li>
+                <li class="todo-item">
+                    <input type="checkbox" class="todo-item_ready-mark" aria-label="Пометить дело как выполненное">
+                    <textarea class="todo-item_text">
+                        JS tools
+                    </textarea>
+                    <button class="todo-item_remove" aria-label="Удалить дело"></button>
+                </li>
+            </ul>
+        </div>
+        <div class="todos-actions-bar">
+            <div class="todos-actions-bar_counter" aria-label="Количество невыполненных дел">
+                3 items left
+            </div>
+            <div class="todos-filters">
+                <button class="todos-filter __active" data-filter="all" aria-label="Фильтр: показать все">
+                    All
+                </button>
+                <button class="todos-filter" data-filter="active" aria-label="Фильтр: показать невыполненные дела">
+                    Active
+                </button>
+                <button class="todos-filter" data-filter="completed" aria-label="Фильтр: показать выполненные дела">
+                    Completed
+                </button>
+                <button class="todos-actions-bar_clear-completed">
+                    Clear completed
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
