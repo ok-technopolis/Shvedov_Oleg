@@ -2,6 +2,26 @@ import local from './local';
 
 export default class Storage {
   constructor() {
+    window.addEventListener('online', () => this.checkStorage());
+    //window.addEventListener('load', () => this.checkStorage());
+  }
+
+  checkStorage() {
+    const offlineStorage = local.read('key');
+    if (offlineStorage) {
+      client.updateList(
+        {
+          time: offlineStorage.time,
+          data: offlineStorage.data
+        },
+        response => {
+          local.clear('key');
+          return true;
+        },
+        err => false
+      );
+    }
+    
     this.KEY = 'TODOS';
   }
 

@@ -32,6 +32,19 @@ export default class TodoModel {
 
   /**
    * @param {String} field
+   * @param {*} value
+   * @fires TodoModel#modelFieldChange
+   * @returns {TodoModel}
+   */
+  async asyncSet(field, value) {
+    this._model[field] = value;
+    await this.asyncTrigger('modelFieldChange', { field: field, value: value });
+
+    return this;
+  }
+
+  /**
+   * @param {String} field
    * @returns {*}
    */
   get(field) {
@@ -60,8 +73,8 @@ export default class TodoModel {
    * @returns {TodoModel}
    */
   onAnyChange(handler, ctx) {
-    this.on('modelFieldChange', data => {
-      handler.call(ctx, data);
+    this.on('modelFieldChange', async data => {
+      await handler.call(ctx, data);
       this.trigger('modelChange', this);
     }, this);
 

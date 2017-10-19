@@ -22,7 +22,7 @@ export default class TodosListModel {
 
   updateList() {
     StorageInstance.getEntriesList()
-      .then(data => {
+      .then(async data => {
         const entries = data;
 
         for (let i = 0, l = entries.length; i < l; i++) {
@@ -32,8 +32,8 @@ export default class TodosListModel {
         // I really don't know how to properly initialize model of ready item: ready changing listeners doesn't active while model is under construction
         for (let i = 0, l = this._items_models.length; i < l; i++) {
           if (this._items_models[i].get('isReady')) {
-            this._items_models[i].set('isReady', false);
-            this._items_models[i].set('isReady', true);
+            await this._items_models[i].asyncSet('isReady', false);
+            await this._items_models[i].asyncSet('isReady', true);
           }
         }
       })
@@ -122,7 +122,7 @@ export default class TodosListModel {
       model = new TodoModel(Object.assign({ id: uuidv4() }, inputData));
     }
 
-    model.onAnyChange(data => {
+    model.onAnyChange(async data => {
       switch(data['field']) {
         case 'text':
           this.trigger('modelTextChange', model);
@@ -137,7 +137,7 @@ export default class TodosListModel {
           this.trigger('modelChange', model);
           break;
       }
-      StorageInstance.changeListItem({
+      await StorageInstance.changeListItem({
         id: model.get('id'),
         isReady: model.get('isReady'),
         text: model.get('text')
@@ -183,7 +183,7 @@ export default class TodosListModel {
    * @param {Number} id
    * @returns {TodosListModel}
    */
-  remove(id) {
+  async remove(id) {
     let model = this._getModelById(id);
 
     if (model) {
@@ -198,9 +198,7 @@ export default class TodosListModel {
 
       let modelIndex = this.getList().indexOf(model);
       this.getList().splice(modelIndex, 1);
-
-      StorageInstance.removeListItem(id);
-
+      await StorageInstance.removeListItem(id);
       /** @event TodosListModel~todoRemoved */
       this.trigger('todoRemoved');
     }
@@ -211,11 +209,11 @@ export default class TodosListModel {
   /**
    * @returns {TodosListModel}
    */
-  clearCompleted() {
+  async clearCompleted() {
     let copyModels = this.getList().slice();
     for (let i = 0, l = copyModels.length; i !== l; i++) {
       if (copyModels[i].get('isReady')) {
-        this.remove(copyModels[i].get('id'));
+        await this.remove(copyModels[i].get('id'));
       }
     }
     return this;
@@ -224,10 +222,10 @@ export default class TodosListModel {
   /**
    * @returns {TodosListModel}
    */
-  selectAll() {
+  async selectAll() {
     const list = this.getList();
     for (let i = 0, l = list.length; i !== l; i++) {
-      list[i].set('isReady', true);
+      await list[i].asyncSet('isReady', true);
     }
     return this;
   }

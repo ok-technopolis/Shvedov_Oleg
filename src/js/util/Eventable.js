@@ -44,3 +44,14 @@ Eventable.prototype.trigger = function (eventName, data) {
   }
   return this;
 };
+
+Eventable.prototype.asyncTrigger = async function (eventName, data) {
+  let subscribers = getEventSubscribers(this, eventName);
+  if (subscribers) {
+    let subscribersCopy = subscribers.slice();
+    for (let i = 0, l = subscribersCopy.length; i !== l; i++) {
+      await subscribersCopy[i].handler.call(subscribersCopy[i].ctx, data);
+    }
+  }
+  return this;
+};
